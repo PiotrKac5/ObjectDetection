@@ -1,5 +1,5 @@
 import torch
-from IoU import intersection_over_union
+from ObjectDetection.YOLO.IoU import intersection_over_union
 def non_max_suppression(bboxes, iou_threshold, prob_threshold, box_fomat="midpoint"):
     """
    Does Non Max Suppression given bboxes

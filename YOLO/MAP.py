@@ -1,6 +1,6 @@
 import torch
 from collections import Counter
-from IoU import intersection_over_union
+from ObjectDetection.YOLO.IoU import intersection_over_union
 
 def mean_average_precision(pred_boxes, true_boxes, iou_threshold=0.5, box_format="corners", num_classes=20):
     """
