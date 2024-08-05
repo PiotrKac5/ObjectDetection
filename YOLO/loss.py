@@ -5,7 +5,7 @@ Implementation of Yolo Loss Function from the original yolo paper
 
 import torch
 import torch.nn as nn
-from IoU import intersection_over_union
+from utils import intersection_over_union
 
 class YoloLoss(nn.Module):
     """
