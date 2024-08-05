@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import cv2
+import cvzone
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 1280)
@@ -16,6 +17,10 @@ while True:
             x1, y1, x2, y2 = box.xyxy[0]
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 200, 0), 3)
+
+            conf = round(float(box.conf[0]), 2)
+
+            cvzone.putTextRect(img=img, text=f"{conf}", pos=(max(0, x1), max(35, y1-20)))
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
