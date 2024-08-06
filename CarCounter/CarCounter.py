@@ -6,7 +6,7 @@ from sort import *
 
 model = YOLO("../Yolo-Weights/yolov8n.pt") #you can change here between v8n (nano), v8s (small), v8m (medium), v8l (large)
 cap = cv2.VideoCapture("Videos/cars.mp4")
-mask = cv2.imread("masks/mask.png")
+mask = cv2.imread("images/mask.png")
 
 classNames = [
             "person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
@@ -31,7 +31,13 @@ totalCount = set()
 while True:
     succes, img = cap.read()
     imgRegion = cv2.bitwise_and(img, mask)
+
     results = model(imgRegion, stream=True)
+
+    imgGraphics = cv2.imread("images/graphics.png", cv2.IMREAD_UNCHANGED)
+
+    cvzone.overlayPNG(imgBack=img, imgFront=imgGraphics, pos=(0, 0))
+
     detections = np.empty((0, 5))
     for r in results:
         boxes = r.boxes
@@ -67,7 +73,8 @@ while True:
             if len(totalCount) > dl:
                 cv2.line(img, (limits[0], limits[1]), (limits[2], limits[3]), (0, 255, 0), 5)
 
-    cvzone.putTextRect(img=img, text=f"Count: {len(totalCount)}", pos=(50, 50))
+    # cvzone.putTextRect(img=img, text=f"Count: {len(totalCount)}", pos=(50, 50))
+    cv2.putText(img=img, text=str(len(totalCount)), org=(255, 100), color=(50, 50, 255), fontScale=5, fontFace=cv2.FONT_HERSHEY_PLAIN, thickness=8)
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
