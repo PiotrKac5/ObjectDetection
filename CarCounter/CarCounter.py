@@ -4,6 +4,7 @@ import cvzone
 
 model = YOLO("../Yolo-Weights/yolov8n.pt")
 cap = cv2.VideoCapture("Videos/cars.mp4")
+mask = cv2.imread("masks/mask.png")
 
 classNames = [
             "person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
@@ -20,7 +21,8 @@ classNames = [
 
 while True:
     succes, img = cap.read()
-    results = model(img, stream=True)
+    imgRegion = cv2.bitwise_and(img, mask)
+    results = model(imgRegion, stream=True)
     for r in results:
         boxes = r.boxes
         for box in boxes:
@@ -39,5 +41,5 @@ while True:
                 cvzone.putTextRect(img=img, text=f"{currClass} {conf}", pos=(max(0, x1), max(35, y1-20)), scale=0.7, thickness=1, offset=3)
 
 
-    cv2.imshow("Image", img)
+    cv2.imshow("ImageRegion", img)
     cv2.waitKey(0)
