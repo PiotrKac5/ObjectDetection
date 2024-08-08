@@ -30,6 +30,10 @@ totalCount = set()
 
 while True:
     succes, img = cap.read()
+    if (succes == False):
+        print("End of the video")
+        cv2.waitKey(0)
+        break
     imgRegion = cv2.bitwise_and(img, mask)
 
     results = model(imgRegion, stream=True)
@@ -78,3 +82,4 @@ while True:
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
+
